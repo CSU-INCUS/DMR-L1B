@@ -17,22 +17,22 @@ if(length(checkIfFileExists)>0)
 end
 
 %% define parameters
-WLstart = 9000;  %encoder position of warm load boundary 
+WLstart = 6149;  %encoder position of warm load boundary 
 nccreate(staticFile,'WLstart')
 ncwrite(staticFile,'WLstart',WLstart)
 ncwriteatt(staticFile,'WLstart','description','starting encoder position of warm load boundary')
 
-WLend = 9800;  %encoder position of warm load boundary 
+WLend = 7949;  %encoder position of warm load boundary 
 nccreate(staticFile,'WLend')
 ncwrite(staticFile,'WLend',WLend)
 ncwriteatt(staticFile,'WLend','description','ending encoder position of warm load boundary')
 
-CSstart = 1.36e4;  %encoder position of cold sky boundary 
+CSstart = 13549;  %encoder position of cold sky boundary 
 nccreate(staticFile,'CSstart')
 ncwrite(staticFile,'CSstart',CSstart)
 ncwriteatt(staticFile,'CSstart','description','starting encoder position of cold sky boundary')
 
-CSend = 1.44e4;  %encoder position of cold sky boundary 
+CSend = 14614;  %encoder position of cold sky boundary 
 nccreate(staticFile,'CSend')
 ncwrite(staticFile,'CSend',CSend)
 ncwriteatt(staticFile,'CSend','description','ending encoder position of cold sky boundary')
@@ -47,7 +47,7 @@ nccreate(staticFile,'CSf')
 ncwrite(staticFile,'CSf',CSf)
 ncwriteatt(staticFile,'CSf','description','cold sky fill fraction (1-spillover)')
 
-Tsky = 2.70;  % Brightness temperature of cold sky
+Tsky = 2.73;  % Brightness temperature of cold sky
 nccreate(staticFile,'Tsky')
 ncwrite(staticFile,'Tsky',Tsky)
 ncwriteatt(staticFile,'Tsky','description','Brightness temperature of cold sky')
@@ -62,7 +62,7 @@ nccreate(staticFile,'npkts')
 ncwrite(staticFile,'npkts',npkts)
 ncwriteatt(staticFile,'npkts','description','data granule size in number of packets (0.5s/pkt)')
 
-TAIoffset = 37;  %seconds TAI is ahead of UTC
+TAIoffset = 0;  %seconds TAI is ahead of UTC
 nccreate(staticFile,'TAIoffset')
 ncwrite(staticFile,'TAIoffset',TAIoffset)
 ncwriteatt(staticFile,'TAIoffset','description','seconds TAI is ahead of UTC')
@@ -82,7 +82,7 @@ nccreate(staticFile,'skyfrac','Dimensions',{'skyfrac',1,5})
 ncwrite(staticFile,'skyfrac',skyfrac)
 ncwriteatt(staticFile,'skyfrac','description','APC cold sky fraction')
 
-calstd_thres = [12 10 20 5 3];  %threshold to filter calibration counts standard deviation on single target look
+calstd_thres = [20 30 40 30 50];  %threshold to filter calibration counts standard deviation on single target look
 nccreate(staticFile,'calstd_thres','Dimensions',{'calstd_thres',1,5})
 ncwrite(staticFile,'calstd_thres',calstd_thres)
 ncwriteatt(staticFile,'calstd_thres','description','threshold to filter calibration counts standard deviation on single target look')
@@ -126,4 +126,22 @@ nccreate(staticFile,'fill_val')
 ncwrite(staticFile,'fill_val',fill_val)
 ncwriteatt(staticFile,'fill_val','description','fill value to use for bad data')
 
+
+param_Trx_x = [268.986250474349	276.093231118191	285.470760465527	293.771343563665	303.438562241069	311.710694317071;...
+268.401163247236	275.542715472093	285.295711822495	293.692436884875	303.612605555810	311.383282103762;...
+268.401163247236	275.542715472093	285.295711822495	293.692436884875	303.612605555810	311.383282103762;...
+268.401163247236	275.542715472093	285.295711822495	293.692436884875	303.612605555810	311.383282103762;...
+268.401163247236	275.542715472093	285.295711822495	293.692436884875	303.612605555810	311.383282103762];
+nccreate(staticFile,'param_Trx_x','Dimensions',{'f',5,'T',6})
+ncwrite(staticFile,'param_Trx_x',param_Trx_x)
+ncwriteatt(staticFile,'param_Trx_x','description','Temperature points for Trx parameterization, W10 Temps for Ch 1, WR5FE for all other channels')
+
+param_Trx_y = [364.014310884999	382.179785981455	405.480121190854	426.414269389063	453.048575792933	479.607883437636;...
+394.371824946406	404.829506018767	419.931296195448	433.385280532577	449.252484794308	461.196049692868;...
+428.258419702543	441.038739670457	460.669860006310	477.939375180889	498.116123698722	512.964097806432;...
+572.537518237723	614.762417049017	646.654994094990	675.718575036923	711.674610433599	740.101839761131;...
+637.227809879538	675.374116578273	719.998368950494	762.072246432368	815.970455639697	860.105835453326];
+nccreate(staticFile,'param_Trx_y','Dimensions',{'f',5,'T',6})
+ncwrite(staticFile,'param_Trx_y',param_Trx_y)
+ncwriteatt(staticFile,'param_Trx_y','description','Trx points for Trx parameterization')
 
