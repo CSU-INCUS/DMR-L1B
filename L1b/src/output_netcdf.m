@@ -36,8 +36,13 @@ ncwrite(output_file,"/CalibrationData/cal_cs_temp",cal.TcalCS_m.data) % check if
 nccreate(output_file,"/CalibrationData/cal_gain","Dimensions",{"Ncal",length(cal.gain.data),"ch",5},"Format","netcdf4")
 ncwrite(output_file,"/CalibrationData/cal_gain",cal.gain.data)
 
-nccreate(output_file,"/CalibrationData/cal_scan_flag","Dimensions",{"Ncal",length(cal.flagRegister.data)},"Format","netcdf4")
-ncwrite(output_file,"/CalibrationData/cal_scan_flag",cal.flagRegister.data)
+% nccreate(output_file,"/CalibrationData/cal_scan_flag","Dimensions",{"Ncal",length(cal.flagRegister.data)},"Format","netcdf4")
+% ncwrite(output_file,"/CalibrationData/cal_scan_flag",cal.flagRegister.data)
+nccreate(output_file,"/CalibrationData/num_wl_obs","Dimensions",{"Ncal",length(cal.num_wl_obs.data)},"Format","netcdf4")
+ncwrite(output_file,"/CalibrationData/num_wl_obs",cal.num_wl_obs.data)
+
+nccreate(output_file,"/CalibrationData/num_cs_obs","Dimensions",{"Ncal",length(cal.num_wl_obs.data)},"Format","netcdf4")
+ncwrite(output_file,"/CalibrationData/num_cs_obs",cal.num_cs_obs.data)
 
 nccreate(output_file,"/CalibrationData/cal_time_string","Dimensions",{"Ncal",length(cal.cal_cs_adc_mean.data),"ch",5},"Format","netcdf4")
 ncwrite(output_file,"/CalibrationData/cal_time_string",cal.cal_time_string.data)

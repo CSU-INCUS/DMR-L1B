@@ -17,15 +17,15 @@ if(length(checkIfFileExists)>0)
 end
 
 %% define parameters
-WL_min_num = 4;
-nccreate(staticFile,'WL_min_num')
-ncwrite(staticFile,'WL_min_num',WL_min_num)
-ncwriteatt(staticFile,'WL_min_num','description','minimum number of warm look obs needed for good calibration')
-
-CS_min_num = 4;
-nccreate(staticFile,'CS_min_num')
-ncwrite(staticFile,'CS_min_num',CS_min_num)
-ncwriteatt(staticFile,'CS_min_num','description','minimum number of cold look obs needed for good calibration')
+% WL_min_num = 4;
+% nccreate(staticFile,'WL_min_num')
+% ncwrite(staticFile,'WL_min_num',WL_min_num)
+% ncwriteatt(staticFile,'WL_min_num','description','minimum number of warm look obs needed for good calibration')
+% 
+% CS_min_num = 4;
+% nccreate(staticFile,'CS_min_num')
+% ncwrite(staticFile,'CS_min_num',CS_min_num)
+% ncwriteatt(staticFile,'CS_min_num','description','minimum number of cold look obs needed for good calibration')
 
 EIA_max = 60;
 nccreate(staticFile,'EIA_max')

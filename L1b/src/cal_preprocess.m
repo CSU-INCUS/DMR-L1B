@@ -8,12 +8,12 @@
 % outputs will be used to calculate TA etc.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [calWL,calCS,cal] = cal_preprocess(d,c,rad)
-%% cal_scan_flag
-% TEMPEST-H8 has higher number of flags, but the only necessary one is too
-% few observations, I will leave the other bits empty in case more flags
-% become necessary
-flag_wl_too_few = bitshift(1,1); % bit 1
-flag_cs_too_few = bitshift(1,7); % bit 7
+% %% cal_scan_flag
+% % TEMPEST-H8 has higher number of flags, but the only necessary one is too
+% % few observations, I will leave the other bits empty in case more flags
+% % become necessary
+% flag_wl_too_few = bitshift(1,1); % bit 1
+% flag_cs_too_few = bitshift(1,7); % bit 7
 
 %% get warm cal target temperature
 calTargetTemps = [d.h.THERM_COUNT0 d.h.THERM_COUNT1 d.h.THERM_COUNT2];
@@ -46,8 +46,10 @@ calCS.adc_m.data = NaN([length(scan_start_times)-1 5]);
 calCS.adc_s.data = NaN([length(scan_start_times)-1 5]);
 calCS.Tcal.data = NaN([length(scan_start_times)-1 5]);
 calCS.Tcal_s.data = NaN([length(scan_start_times)-1 5]);
+num_cs_inds = NaN([length(scan_start_times)-1 1]);
+num_wl_inds = NaN([length(scan_start_times)-1 1]);
 
-flagRegister = repmat(uint16(0),1,length(scan_start_times)-1);
+% flagRegister = repmat(uint16(0),1,length(scan_start_times)-1);
 % loop through each scan
 for nn = 1:length(scan_start_times)-1
     % define scan window
@@ -58,13 +60,15 @@ for nn = 1:length(scan_start_times)-1
     CSinds = find((d.s.ENCODER>=c.CSstart)&((d.s.ENCODER<c.CSend))&(d.s.TIMESTAMP>=tmA)&(d.s.TIMESTAMP<tmB));
     WLinds = find((d.s.ENCODER>=c.WLstart)&((d.s.ENCODER<c.WLend))&(d.s.TIMESTAMP>=tmA)&(d.s.TIMESTAMP<tmB));
 
-    % flag for too few obs
-    if(length(CSinds)<c.CS_min_num)
-        flagRegister(nn) = bitor(flagRegister,flag_cs_too_few);
-    end
-    if(length(WLinds)<c.WL_min_num)
-        flagRegister(nn) = bitor(flagRegister,flag_wl_too_few);
-    end
+%     % flag for too few obs
+%     if(length(CSinds)<c.CS_min_num)
+%         flagRegister(nn) = bitor(flagRegister,flag_cs_too_few);
+%     end
+%     if(length(WLinds)<c.WL_min_num)
+%         flagRegister(nn) = bitor(flagRegister,flag_wl_too_few);
+%     end
+    num_cs_inds(nn) = length(CSinds);
+    num_wl_inds(nn) = length(WLinds);
 
     % housekeeping indexes for temperatures
     HKinds = find((d.h.TIMESTAMP>=tmA)&(d.h.TIMESTAMP<tmB));
@@ -140,8 +144,10 @@ for ch = 1:5
  
 end
 
-% flag assignment to calibration time
-cal.flagRegister.data = uint16(interp1(calWL.time.data,double(flagRegister),cal.time.data,'nearest','extrap'));
+% % flag assignment to calibration time
+% cal.flagRegister.data = uint16(interp1(calWL.time.data,double(flagRegister),cal.time.data,'nearest','extrap'));
+cal.num_wl_obs.data = interp1(calWL.time.data,num_wl_inds,cal.time.data,'nearest','extrap');
+cal.num_cs_obs.data = interp1(calCS.time.data,num_cs_inds,cal.time.data,'nearest','extrap');
 
 %% Setup attributes
 cal.time.longname = 'Time for calibration set, seconds since J2000';
