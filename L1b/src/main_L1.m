@@ -8,16 +8,20 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 clear all; clc;
 
-%% define directories ----------------------------------------------------%
+%% define directories and other static input -----------------------------%
 granule_start_time = '28-Feb-2025 02:37:14';
 granule_end_time = '28-Feb-2025 03:11:22';
+granuleNumStr = '000001';
 dn1 = datenum(granule_start_time,'dd-mmm-yyyy HH:MM:ss'); % need to add precision to this field or the L0 filename 
 dn2 = datenum(granule_end_time,'dd-mmm-yyyy HH:MM:ss');
-
+verstr = 'V0010';
 L0_DMR_folder = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing\L0\outputs\';
 static_file = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing\L1b\static\static_parameters.nc';
-LO_sc_file = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing\L0\outputs\L0_sc_sYYYYmmddHHMMss_eYYYYmmddHHMMss.nc';
+LO_sc_file = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing\L0\outputs\L0_sc_fake.csv';
 L1_DMR_folder = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing\L1\outputs\';
+L1_out_path = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing\L1b\outputs\data\';
+land_mask_path = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing\L1b\inputs\2min_Landmask.dat';
+
 %% load static parameters ------------------------------------------------%
 c = read_static_nc(static_file);
 
@@ -27,10 +31,13 @@ c = read_static_nc(static_file);
 % secondsPerDay = 24*60*60;
 % matlabConversionTime = datenum(2000,1,1) + 7.940274826689999E8./secondsPerDay;
 d = create_L0_granule(granule_start_time,granule_end_time,L0_DMR_folder);
+
 %% load spacecraft telemetry ---------------------------------------------%
-sc.filename.data = 'TBD.csv';
+% note that CubeOlocate needs time in matlab datetime convention, but
+% elsewhere, we are consistent in using J2000
+sc.filename.data = LO_sc_file;
 sc = define_sc_var_DMR(sc); % setting up attributes for sc structure
-sc = read_spacecraft(sc); % read s/c data % reminder that I need to make sure that the time conventions in the s/c data match the DMR TIMESTAMP
+sc = read_spacecraft(sc,c); % read s/c data % reminder that I need to make sure that the time conventions in the s/c data match the DMR TIMESTAMP
 sc = process_spacecraft_data(sc); % for s/c position/orientation
 
 %% observing geometry ----------------------------------------------------%
@@ -46,6 +53,9 @@ rad = define_geo_var_DMR(rad);
 
 % geolocate DMR boresight for each observation
 rad = locate_DMR(rad,sc,c,d); 
+
+% apply land/ocean/scene flags
+rad = get_landflag_TEMPEST(rad,c,land_mask_path);
 
 %% extract calibration data ----------------------------------------------%
 [calWL,calCS,cal] = cal_preprocess(d,c,rad);
@@ -64,15 +74,16 @@ rad = filter_TB_DMR(c,rad);
 
 %% output netCDF ---------------------------------------------------------%
 [yyo, mmo, ddo, ~, ~, ~] = datevec(granule_start_time);
-output_path = [L1out_pth, sprintf('%04d',yyo),'/', sprintf('%02d',mmo),'/'];
+output_path = [L1_out_path, sprintf('%04d',yyo),'\', sprintf('%02d',mmo),'\'];
 if (~exist(output_path, 'dir'))
     system(['mkdir ',output_path]);
 end
-output_path = [L1out_pth, sprintf('%04d',yyo),'/', sprintf('%02d',mmo),'/', sprintf('%02d',ddo), '/'];
+output_path = [L1_out_path, sprintf('%04d',yyo),'\', sprintf('%02d',mmo),'\', sprintf('%02d',ddo), '\'];
 if (~exist(output_path, 'dir'))
     system(['mkdir ',output_path]);
 end
-output_file = [output_path,'DMR_L1B_',datestr(dn1,'yyyymmddTHHMMSS'),'_',datestr(dn2,'yyyymmddTHHMMSS'),'_',verstr,'.nc'];
+createTime = datetime('now','TimeZone', 'Z');
+output_file = [output_path,'DMR_L1B_',granuleNumStr,'_',datestr(dn1,'yyyymmddTHHMMSS'),'_',datestr(dn2,'yyyymmddTHHMMSS'),'_',verstr,'_',datestr(createTime,'yyyymmddTHHMMSS'),'.nc'];
 % time ordered version
 output_netcdf(rad,cal,sc,output_file)
             

@@ -20,7 +20,7 @@ for ch = 1:5
     
     calGain = interp1(cal.time.data',cal.gain.data(:,ch),d.s.TIMESTAMP);% gain interpolated to obs time
     calTarTemps = interp1(cal.time.data',cal.TcalWL.data(:,ch),d.s.TIMESTAMP);% mean of WL target
-    calTBcs = interp1(cal.time.data',cal.TcalCS.data(:,ch),d.s.TIMESTAMP);% mean of cold sky
+    calTBcs = interp1(cal.time.data',cal.TcalCS_m.data(:,ch),d.s.TIMESTAMP);% mean of cold sky
     if(ch==1)
         current_ADC = d.s.ADC0;
     elseif(ch==2)

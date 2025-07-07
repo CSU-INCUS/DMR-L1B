@@ -1,4 +1,4 @@
-function sc = read_spacecraft(sc)
+function sc = read_spacecraft(sc,c)
 %%% Example file from TEMPEST
 if (iscell(sc.filename.data))
     M=[];
@@ -25,4 +25,6 @@ sc.ECI.data = M(:,1:3); %x,y,z position in ECI frame in km
 
 sc.Q_ECI.data = M(:,[7,4:6]);  %S/C body orientation quaterion in ECI frame
 
-sc.UTCtime.data = M(:,8)/86400+datenum([2000 1 1 0 0 0])-config.TAIoffset./86400; %this is in matlab format now
+sc.UTCtime.data = M(:,8)-c.TAIoffset; % keep things in J2000
+
+sc.UTCtime_dt.data = M(:,8)./86400+datenum([2000 1 1 0 0 0])-c.TAIoffset./86400; % matlab dt

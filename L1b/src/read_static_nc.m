@@ -5,6 +5,8 @@ try
     d.file_info = ncinfo(static_file);   
     
     % read variables
+    d.WL_min_num = ncread(static_file,'WL_min_num');
+    d.CS_min_num = ncread(static_file,'CS_min_num');
     d.WLstart = ncread(static_file,'WLstart');
     d.WLend = ncread(static_file,'WLend');
     d.CSstart = ncread(static_file,'CSstart');
@@ -28,6 +30,7 @@ try
     d.fill_val = ncread(static_file,'fill_val');
     d.param_Trx_x = ncread(static_file,'param_Trx_x');
     d.param_Trx_y = ncread(static_file,'param_Trx_y');
+    d.EIA_max = ncread(static_file,'EIA_max');
     fprintf('Successfully loaded all variables from %s\n', static_file);
 
 catch ME

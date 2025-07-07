@@ -153,4 +153,65 @@ d.s.ADC1 = d.s.ADC1(sinds);	% ADC 1 Counts (165 GHz Co-Added Counts)
 d.s.ADC2 = d.s.ADC2(sinds);	% ADC 2 Counts (176 GHz Co-Added Counts)
 d.s.ADC3 = d.s.ADC3(sinds);	% ADC 3 Counts (180 GHz Co-Added Counts)
 d.s.ADC4 = d.s.ADC4(sinds);	% ADC 4 Counts (182 GHz Co-Added Counts)
+
+%% make sure housekeeping data is ordered in time with no duplicates
+tmpx = d.h.TIMESTAMP;
+[x,indS] = sort(tmpx); %sort packets in ascending time
+indF = find(diff(x)>0); %remove duplicates
+while(numel(indF)<(numel(x)-1))
+    tmpx=tmpx(indS(indF));
+    % assign data
+    d.h.THERM_COUNT0 = d.h.THERM_COUNT0(indS(indF));
+    d.h.THERM_COUNT1 = d.h.THERM_COUNT1(indS(indF));
+    d.h.THERM_COUNT2 = d.h.THERM_COUNT2(indS(indF));
+    d.h.THERM_COUNT3 = d.h.THERM_COUNT3(indS(indF));
+    d.h.THERM_COUNT4 = d.h.THERM_COUNT4(indS(indF));
+    d.h.THERM_COUNT5 = d.h.THERM_COUNT5(indS(indF));
+    d.h.DCE_CMD_STATUS = d.h.DCE_CMD_STATUS(indS(indF));
+    d.h.DCE_FILTERED_SPEED_RPM = d.h.DCE_FILTERED_SPEED_RPM(indS(indF));
+    d.h.DCE_SPEED_CMD_RPM = d.h.DCE_SPEED_CMD_RPM(indS(indF));
+    d.h.SCI_CONFIG_BLK_ENABLE = d.h.SCI_CONFIG_BLK_ENABLE(indS(indF));
+    d.h.SCI_DROP_0 = d.h.SCI_DROP_0(indS(indF));
+    d.h.SCI_KEEP_1 = d.h.SCI_KEEP_1(indS(indF));
+    d.h.SCI_DROP_1 = d.h.SCI_DROP_1(indS(indF));
+    d.h.SCI_KEEP_2 = d.h.SCI_KEEP_2(indS(indF));
+    d.h.SCI_DROP_2 = d.h.SCI_DROP_2(indS(indF));
+    d.h.SCI_KEEP_3 = d.h.SCI_KEEP_3(indS(indF));
+    d.h.SCI_DROP_3 = d.h.SCI_DROP_3(indS(indF));
+    d.h.SCI_SHIFT_ADC0 = d.h.SCI_SHIFT_ADC0(indS(indF));
+    d.h.SCI_SHIFT_ADC1 = d.h.SCI_SHIFT_ADC1(indS(indF));
+    d.h.SCI_SHIFT_ADC2 = d.h.SCI_SHIFT_ADC2(indS(indF));
+    d.h.SCI_SHIFT_ADC3 = d.h.SCI_SHIFT_ADC3(indS(indF));
+    d.h.SCI_SHIFT_ADC4 = d.h.SCI_SHIFT_ADC4(indS(indF));
+    d.h.SCI_OFFSET_ADC0 = d.h.SCI_OFFSET_ADC0(indS(indF));
+    d.h.SCI_OFFSET_ADC1 = d.h.SCI_OFFSET_ADC1(indS(indF));
+    d.h.SCI_OFFSET_ADC2 = d.h.SCI_OFFSET_ADC2(indS(indF));
+    d.h.SCI_OFFSET_ADC3 = d.h.SCI_OFFSET_ADC3(indS(indF));
+    d.h.SCI_OFFSET_ADC4 = d.h.SCI_OFFSET_ADC4(indS(indF));
+    % check order and duplication
+    [x,indS] = sort(tmpx); %sort packets in ascending time
+    indF = find(diff(x)>0); %remove duplicates
+end
+d.h.TIMESTAMP = tmpx;
+
+%% make sure science data is ordered in time with no duplicates
+tmpx = d.s.TIMESTAMP;
+[x,indS] = sort(tmpx); %sort packets in ascending time
+indF = find(diff(x)>0); %remove duplicates
+while(numel(indF)<(numel(x)-1))
+    tmpx=tmpx(indS(indF));
+    % assign data
+    d.s.ENCODER = d.s.ENCODER(indS(indF));
+    d.s.ADC0 = d.s.ADC0(indS(indF));
+    d.s.ADC1 = d.s.ADC1(indS(indF));
+    d.s.ADC2 = d.s.ADC2(indS(indF));
+    d.s.ADC3 = d.s.ADC3(indS(indF));
+    d.s.ADC4 = d.s.ADC4(indS(indF));
+    % check order and duplication
+    [x,indS] = sort(tmpx); %sort packets in ascending time
+    indF = find(diff(x)>0); %remove duplicates
+end
+d.s.TIMESTAMP = tmpx;
+
+end
 % end

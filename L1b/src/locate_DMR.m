@@ -1,5 +1,5 @@
 % based on tempestOlocate
-function rad = locate_DMR(rad,sc,c)
+function rad = locate_DMR(rad,sc,c,d)
 
 % interpolate S/C sample rate to radiometer sample rate
 rad.asds.data = interp1(sc.UTCtime.data, sc.asds.data, d.s.TIMESTAMP, 'nearest');
@@ -11,7 +11,7 @@ ind = find(d.s.TIMESTAMP >= min(sc.UTCtime.data) & d.s.TIMESTAMP <= max(sc.UTCti
 
 if (~isempty(ind))
     % interpolate S/C sample rate to radiometer sample rate
-    ECI_rad = interp1(sc.UTCtime.data, sc.ECI.data, d.s.TIMESTAMP(ind), 'cubic'); 
+    ECI_rad = interp1(sc.UTCtime.data, sc.ECI.data, d.s.TIMESTAMP(ind), 'spline'); 
     Q_ECI_rad = interp1(sc.UTCtime.data, sc.Q_ECI.data, d.s.TIMESTAMP(ind), 'nearest'); 
     
     bsight = [0 0 1]'; % boresight vector
@@ -25,8 +25,8 @@ if (~isempty(ind))
     end
     norm_vec = ones(3,1)*sqrt(sum(bvec_scan.^2,1));
     bvec_scan=bvec_scan./norm_vec;
-    
-    [rad.SClat.data(ind), rad.SClon.data(ind), rad.SCalt.data(ind),rad.SCinc.data(ind), rad.blat.data(ind), rad.blon.data(ind), rad.binc.data(ind), rad.belev.data(ind), rad.bhorz.data(ind)] = CubeOlocate(ECI_rad,Q_ECI_rad,d.s.TIMESTAMP(ind),bvec_scan);
+    sci_time_dt = d.s.TIMESTAMP(ind)./86400+datenum([2000 1 1 0 0 0]);
+    [rad.SClat.data(ind), rad.SClon.data(ind), rad.SCalt.data(ind),rad.SCinc.data(ind), rad.blat.data(ind), rad.blon.data(ind), rad.binc.data(ind), rad.belev.data(ind), rad.bhorz.data(ind)] = CubeOlocate(ECI_rad,Q_ECI_rad,sci_time_dt,bvec_scan);
    
 else
     dout = [{'No overlapping spacecraft position data found in: '};{sc.filename.data};{'!! skipping payload geolocation  !!'}];

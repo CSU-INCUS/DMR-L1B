@@ -39,7 +39,7 @@ Ryaw = getR(yaw, 'z');
 bsight_SC = Ryaw*Rpitch*Rroll*bsight;  % nominal boresight in spacecraft coordinate frame accounting for mis-allignments between inst/SC frames
 
 %% compute the S/C samples 
-[sc.lat.data, sc.lon.data, sc.alt.data, ~, ~, ~] = CubeOlocate(sc.ECI.data,sc.Q_ECI.data,sc.UTCtime.data,bsight_SC); 
+[sc.lat.data, sc.lon.data, sc.alt.data, ~, ~, ~] = CubeOlocate(sc.ECI.data,sc.Q_ECI.data,sc.UTCtime_dt.data,bsight_SC); 
 
 %% compute ascending and descending flags
 tmp=diff(sc.lat.data)./diff(sc.UTCtime.data');

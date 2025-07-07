@@ -1,5 +1,5 @@
 
-function [SClat, SClon, SCalt, SCinc, blat, blon, binc,belev,bhorz] = CubeOlocate(ECI,Q_ECI,UTCtime,bsight)
+function [SClat, SClon, SCalt, SCinc, blat, blon, binc,belev,bhorz] = CubeOlocate(ECI,Q_ECI,UTCtime_dt,bsight)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Inputs:  
@@ -10,7 +10,7 @@ function [SClat, SClon, SCalt, SCinc, blat, blon, binc,belev,bhorz] = CubeOlocat
 %   z-axis points toward the center of the Earth and the y-axis completes
 %   the coordinate system
 %
-%   UTCtime: [Nx1]  UTC time for the inputs
+%   UTCtime_dt: [Nx1]  UTC time for the inputs, datetime array
 %
 %   bsight: [3x1]:  boresight vector of the antenna in the spacecraft body
 %   coordinate frame
@@ -28,7 +28,7 @@ function [SClat, SClon, SCalt, SCinc, blat, blon, binc,belev,bhorz] = CubeOlocat
 %   
 %   binc [1xN]:  antenna boresight incidence angle wrt Earth normal of WGS84 elipsoid in degrees
 
-jd = juliandate(datevec(UTCtime)); %Julian date from UTC time
+jd = juliandate(datevec(UTCtime_dt)); %Julian date from UTC time
 
 R_SC_body = qGetR(Q_ECI); %get rotation matrix from quaterion
 

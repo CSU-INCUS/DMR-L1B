@@ -8,6 +8,12 @@
 % outputs will be used to calculate TA etc.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [calWL,calCS,cal] = cal_preprocess(d,c,rad)
+%% cal_scan_flag
+% TEMPEST-H8 has higher number of flags, but the only necessary one is too
+% few observations, I will leave the other bits empty in case more flags
+% become necessary
+flag_wl_too_few = bitshift(1,1); % bit 1
+flag_cs_too_few = bitshift(1,7); % bit 7
 
 %% get warm cal target temperature
 calTargetTemps = [d.h.THERM_COUNT0 d.h.THERM_COUNT1 d.h.THERM_COUNT2];
@@ -32,15 +38,16 @@ scan_start_times = d.s.TIMESTAMP(indsScanStart(1:end));
 %% calculate mean + standard deviation of counts for each scan time/target
 stdWindow = 3;
 % initialize
-calWL.adc_m.data = NaN([size(scan_start_times) 5]);
-calWL.adc_s.data = NaN([size(scan_start_times) 5]);
-calWL.Tcal.data = NaN([size(scan_start_times) 5]);
-calWL.Tcal_s.data = NaN([size(scan_start_times) 5]);
-calCS.adc_m.data = NaN([size(scan_start_times) 5]);
-calCS.adc_s.data = NaN([size(scan_start_times) 5]);
-calCS.Tcal.data = NaN([size(scan_start_times) 5]);
-calCS.Tcal_s.data = NaN([size(scan_start_times) 5]);
+calWL.adc_m.data = NaN([length(scan_start_times)-1 5]);
+calWL.adc_s.data = NaN([length(scan_start_times)-1 5]);
+calWL.Tcal.data = NaN([length(scan_start_times)-1 5]);
+calWL.Tcal_s.data = NaN([length(scan_start_times)-1 5]);
+calCS.adc_m.data = NaN([length(scan_start_times)-1 5]);
+calCS.adc_s.data = NaN([length(scan_start_times)-1 5]);
+calCS.Tcal.data = NaN([length(scan_start_times)-1 5]);
+calCS.Tcal_s.data = NaN([length(scan_start_times)-1 5]);
 
+flagRegister = repmat(uint16(0),1,length(scan_start_times)-1);
 % loop through each scan
 for nn = 1:length(scan_start_times)-1
     % define scan window
@@ -50,6 +57,14 @@ for nn = 1:length(scan_start_times)-1
     % indexes of targets for that particular scan time
     CSinds = find((d.s.ENCODER>=c.CSstart)&((d.s.ENCODER<c.CSend))&(d.s.TIMESTAMP>=tmA)&(d.s.TIMESTAMP<tmB));
     WLinds = find((d.s.ENCODER>=c.WLstart)&((d.s.ENCODER<c.WLend))&(d.s.TIMESTAMP>=tmA)&(d.s.TIMESTAMP<tmB));
+
+    % flag for too few obs
+    if(length(CSinds)<c.CS_min_num)
+        flagRegister(nn) = bitor(flagRegister,flag_cs_too_few);
+    end
+    if(length(WLinds)<c.WL_min_num)
+        flagRegister(nn) = bitor(flagRegister,flag_wl_too_few);
+    end
 
     % housekeeping indexes for temperatures
     HKinds = find((d.h.TIMESTAMP>=tmA)&(d.h.TIMESTAMP<tmB));
@@ -112,18 +127,21 @@ for ch = 1:5
 
     % cold sky calculations
     ind3sig = find(calCS.adc_s.data(:,ch) < c.calstd_thres(ch));
-    cal.TcalCS.data(:,ch) = interp1(calCS.time.data(ind3sig), calCS.Tcal.data(ind3sig,ch),cal.time.data,'nearest','extrap');
+    cal.TcalCS_m.data(:,ch) = interp1(calCS.time.data(ind3sig), calCS.Tcal.data(ind3sig,ch),cal.time.data,'nearest','extrap');
     cal.adcCS_m.data(:,ch) = interp1(calCS.time.data(ind3sig), calCS.adc_m.data(ind3sig,ch),cal.time.data,'nearest','extrap');
     cal.adcCS_s.data(:,ch) = interp1(calCS.time.data(ind3sig), calCS.adc_s.data(ind3sig,ch),cal.time.data,'nearest','extrap');
     
     % gain
-    cal.gain.data(:,ch) = (cal.adcWL_m.data(:,ch)-cal.adcCS_m.data(:,ch))./(cal.TcalWL.data(:,ch)-cal.TcalCS.data(:,ch));
+    cal.gain.data(:,ch) = (cal.adcWL_m.data(:,ch)-cal.adcCS_m.data(:,ch))./(cal.TcalWL.data(:,ch)-cal.TcalCS_m.data(:,ch));
     
     % NEDT
     cal.NEDTwl.data(:,ch) = cal.adcWL_s.data(:,ch)./abs(cal.gain.data(:,ch));
     cal.NEDTcs.data(:,ch) = cal.adcCS_s.data(:,ch)./abs(cal.gain.data(:,ch));
  
 end
+
+% flag assignment to calibration time
+cal.flagRegister.data = uint16(interp1(calWL.time.data,double(flagRegister),cal.time.data,'nearest','extrap'));
 
 %% Setup attributes
 cal.time.longname = 'Time for calibration set, seconds since J2000';

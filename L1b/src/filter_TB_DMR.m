@@ -4,6 +4,9 @@ for ch = 1:5
     % two point
     ind = find(rad.TB.data(:,ch) < c.minTA_qc | rad.TB.data(:,ch) > c.maxTA_qc | rad.SCinc.data > c.SCinc_max);
     rad.TB.data(ind,ch) = c.fill_val;
+    
+    % obs qual flag
+    rad.obs_qual_flag.data(ind,ch) = 1;
 
     % single point warm load
     ind = find(rad.TB_spWL.data(:,ch) < c.minTA_qc | rad.TB_spWL.data(:,ch) > c.maxTA_qc | rad.SCinc.data > c.SCinc_max);
