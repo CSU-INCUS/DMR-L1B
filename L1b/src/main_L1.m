@@ -6,7 +6,7 @@
 % eventually I will make this a function that takes an input file, but for
 % now I will hard code a nc file input path
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-clear all; clc;
+clear all; clc;tic
 
 %% define directories and other static input -----------------------------%
 granule_start_time = '28-Feb-2025 02:37:14';
@@ -31,6 +31,9 @@ c = read_static_nc(static_file);
 % secondsPerDay = 24*60*60;
 % matlabConversionTime = datenum(2000,1,1) + 7.940274826689999E8./secondsPerDay;
 d = create_L0_granule(granule_start_time,granule_end_time,L0_DMR_folder);
+
+%% process inst data
+inst = process_inst_data(d);
 
 %% load spacecraft telemetry ---------------------------------------------%
 % note that CubeOlocate needs time in matlab datetime convention, but
@@ -85,6 +88,5 @@ end
 createTime = datetime('now','TimeZone', 'Z');
 output_file = [output_path,'DMR_L1B_',granuleNumStr,'_',datestr(dn1,'yyyymmddTHHMMSS'),'_',datestr(dn2,'yyyymmddTHHMMSS'),'_',verstr,'_',datestr(createTime,'yyyymmddTHHMMSS'),'.nc'];
 % time ordered version
-output_netcdf(rad,cal,sc,output_file)
-            
-           
+output_netcdf(inst,rad,cal,sc,output_file)
+toc           

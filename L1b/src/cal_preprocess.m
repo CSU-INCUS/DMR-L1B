@@ -126,7 +126,7 @@ for ch = 1:5
     % warm load calculations
     ind3sig = find(calWL.adc_s.data(:,ch) < c.calstd_thres(ch)); % this is simplified from TEMPEST example code
     cal.adcWL_m.data(:,ch) = interp1(calWL.time.data(ind3sig), calWL.adc_m.data(ind3sig,ch),cal.time.data,'nearest','extrap');
-    cal.TcalWL.data(:,ch) = interp1(calWL.time.data(ind3sig), calWL.Tcal.data(ind3sig,ch),cal.time.data,'nearest','extrap');
+    cal.TcalWL_m.data(:,ch) = interp1(calWL.time.data(ind3sig), calWL.Tcal.data(ind3sig,ch),cal.time.data,'nearest','extrap');
     cal.adcWL_s.data(:,ch) = interp1(calWL.time.data(ind3sig), calWL.adc_s.data(ind3sig,ch),cal.time.data,'nearest','extrap');
 
     % cold sky calculations
@@ -136,7 +136,7 @@ for ch = 1:5
     cal.adcCS_s.data(:,ch) = interp1(calCS.time.data(ind3sig), calCS.adc_s.data(ind3sig,ch),cal.time.data,'nearest','extrap');
     
     % gain
-    cal.gain.data(:,ch) = (cal.adcWL_m.data(:,ch)-cal.adcCS_m.data(:,ch))./(cal.TcalWL.data(:,ch)-cal.TcalCS_m.data(:,ch));
+    cal.gain.data(:,ch) = (cal.adcWL_m.data(:,ch)-cal.adcCS_m.data(:,ch))./(cal.TcalWL_m.data(:,ch)-cal.TcalCS_m.data(:,ch));
     
     % NEDT
     cal.NEDTwl.data(:,ch) = cal.adcWL_s.data(:,ch)./abs(cal.gain.data(:,ch));

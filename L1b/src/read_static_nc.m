@@ -5,8 +5,8 @@ try
     d.file_info = ncinfo(static_file);   
     
     % read variables
-    d.WL_min_num = ncread(static_file,'WL_min_num');
-    d.CS_min_num = ncread(static_file,'CS_min_num');
+%     d.WL_min_num = ncread(static_file,'WL_min_num');
+%     d.CS_min_num = ncread(static_file,'CS_min_num');
     d.WLstart = ncread(static_file,'WLstart');
     d.WLend = ncread(static_file,'WLend');
     d.CSstart = ncread(static_file,'CSstart');

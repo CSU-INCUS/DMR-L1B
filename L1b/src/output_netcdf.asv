@@ -95,58 +95,58 @@ ncwrite(output_file,"/InstrumentTemperatures/temp_cal2",inst.temp_cal2.data)
 nccreate(output_file,"/InstrumentTemperatures/temp_cal3", "Dimensions",{"Nobs",length(inst.temp_cal3.data)},"Format","netcdf4")
 ncwrite(output_file,"/InstrumentTemperatures/temp_cal3",inst.temp_cal3.data)
 
-nccreate(output_file,"/InstrumentTemperatures/temp_fe_wr10", "Dimensions",{"Nobs",length(inst.temp_fe_wr10.data)},"Format","netcdf4")
-ncwrite(output_file,"/InstrumentTemperatures/temp_fe_wr10",inst.temp_fe_wr10.data)
+nccreate(output_file,"/InstrumentTemperatures/temp_fe_wr10", "Dimensions",{"Nobs",length(rad.landmask.data)},"Format","netcdf4")
+ncwrite(output_file,"/InstrumentTemperatures/temp_fe_wr10",rad.temp_fe_wr10.data)
 
-nccreate(output_file,"/InstrumentTemperatures/temp_fe_wr5", "Dimensions",{"Nobs",length(inst.temp_fe_wr5.data)},"Format","netcdf4")
-ncwrite(output_file,"/InstrumentTemperatures/temp_fe_wr5",inst.temp_fe_wr5.data)
+nccreate(output_file,"/InstrumentTemperatures/temp_fe_wr5", "Dimensions",{"Nobs",length(rad.landmask.data)},"Format","netcdf4")
+ncwrite(output_file,"/InstrumentTemperatures/temp_fe_wr5",rad.temp_fe_wr5.data)
 
-nccreate(output_file,"/InstrumentTemperatures/temp_pdiv_wr5", "Dimensions",{"Nobs",length(inst.temp_pdiv_wr5.data)},"Format","netcdf4")
-ncwrite(output_file,"/InstrumentTemperatures/temp_pdiv_wr5",inst.temp_pdiv_wr5.data)
+nccreate(output_file,"/InstrumentTemperatures/temp_pdiv_wr5", "Dimensions",{"Nobs",length(rad.landmask.data)},"Format","netcdf4")
+ncwrite(output_file,"/InstrumentTemperatures/temp_pdiv_wr5",rad.temp_pdiv_wr5.data)
 
 nccreate(output_file,"/SinglePointCal/sp_cs_ta165", "Dimensions",{"Nobs",length(rad.landmask.data)},"Format","netcdf4")
-ncwrite(output_file,"/SinglePointCal/sp_cs_ta165",rad.TA_spCS.data(:,2))
+ncwrite(output_file,"/SinglePointCal/sp_cs_ta165",rad.sp_cs_ta165.data)
 
 nccreate(output_file,"/SinglePointCal/sp_cs_ta176", "Dimensions",{"Nobs",length(rad.landmask.data)},"Format","netcdf4")
-ncwrite(output_file,"/SinglePointCal/sp_cs_ta176",rad.TA_spCS.data(:,3))
+ncwrite(output_file,"/SinglePointCal/sp_cs_ta176",rad.sp_cs_ta176.data)
 
 nccreate(output_file,"/SinglePointCal/sp_cs_ta180", "Dimensions",{"Nobs",length(rad.landmask.data)},"Format","netcdf4")
-ncwrite(output_file,"/SinglePointCal/sp_cs_ta180",rad.TA_spCS.data(:,4))
+ncwrite(output_file,"/SinglePointCal/sp_cs_ta180",rad.sp_cs_ta180.data)
 
 nccreate(output_file,"/SinglePointCal/sp_cs_ta182", "Dimensions",{"Nobs",length(rad.landmask.data)},"Format","netcdf4")
-ncwrite(output_file,"/SinglePointCal/sp_cs_ta182",rad.TA_spCS.data(:,5))
+ncwrite(output_file,"/SinglePointCal/sp_cs_ta182",rad.sp_cs_ta182.data)
 
 nccreate(output_file,"/SinglePointCal/sp_cs_ta89", "Dimensions",{"Nobs",length(rad.landmask.data)},"Format","netcdf4")
-ncwrite(output_file,"/SinglePointCal/sp_cs_ta89",rad.TA_spCS.data(:,1))
+ncwrite(output_file,"/SinglePointCal/sp_cs_ta89",rad.sp_cs_ta89.data)
 
 nccreate(output_file,"/SinglePointCal/sp_wl_ta165", "Dimensions",{"Nobs",length(rad.landmask.data)},"Format","netcdf4")
-ncwrite(output_file,"/SinglePointCal/sp_wl_ta165",rad.TA_spWL.data(:,2))
+ncwrite(output_file,"/SinglePointCal/sp_wl_ta165",rad.sp_wl_ta165.data)
 
 nccreate(output_file,"/SinglePointCal/sp_wl_ta176", "Dimensions",{"Nobs",length(rad.landmask.data)},"Format","netcdf4")
-ncwrite(output_file,"/SinglePointCal/sp_wl_ta176",rad.TA_spWL.data(:,3))
+ncwrite(output_file,"/SinglePointCal/sp_wl_ta176",rad.sp_wl_ta176.data)
 
 nccreate(output_file,"/SinglePointCal/sp_wl_ta180", "Dimensions",{"Nobs",length(rad.landmask.data)},"Format","netcdf4")
-ncwrite(output_file,"/SinglePointCal/sp_wl_ta180",rad.TA_spWL.data(:,4))
+ncwrite(output_file,"/SinglePointCal/sp_wl_ta180",rad.sp_wl_ta180.data)
 
 nccreate(output_file,"/SinglePointCal/sp_wl_ta182", "Dimensions",{"Nobs",length(rad.landmask.data)},"Format","netcdf4")
-ncwrite(output_file,"/SinglePointCal/sp_wl_ta182",rad.TA_spWL.data(:,5))
+ncwrite(output_file,"/SinglePointCal/sp_wl_ta182",rad.sp_wl_ta182.data)
 
 nccreate(output_file,"/SinglePointCal/sp_wl_ta89", "Dimensions",{"Nobs",length(rad.landmask.data)},"Format","netcdf4")
-ncwrite(output_file,"/SinglePointCal/sp_wl_ta89",rad.TA_spWL.data(:,1))
+ncwrite(output_file,"/SinglePointCal/sp_wl_ta89",rad.sp_wl_ta89.data)
 
 nccreate(output_file,"/TwoPointCal/tp_ta165", "Dimensions",{"Nobs",length(rad.landmask.data)},"Format","netcdf4")
-ncwrite(output_file,"/TwoPointCal/tp_ta165",rad.TA_tp.data(:,2))
+ncwrite(output_file,"/TwoPointCal/tp_ta165",rad.tp_ta165.data)
 
 nccreate(output_file,"/TwoPointCal/tp_ta176", "Dimensions",{"Nobs",length(rad.landmask.data)},"Format","netcdf4")
-ncwrite(output_file,"/TwoPointCal/tp_ta176",rad.TA_tp.data(:,3))
+ncwrite(output_file,"/TwoPointCal/tp_ta176",rad.tp_ta176.data)
 
 nccreate(output_file,"/TwoPointCal/tp_ta180", "Dimensions",{"Nobs",length(rad.landmask.data)},"Format","netcdf4")
-ncwrite(output_file,"/TwoPointCal/tp_ta180",rad.TA_tp.data(:,4))
+ncwrite(output_file,"/TwoPointCal/tp_ta180",rad.tp_ta180.data)
 
 nccreate(output_file,"/TwoPointCal/tp_ta182", "Dimensions",{"Nobs",length(rad.landmask.data)},"Format","netcdf4")
-ncwrite(output_file,"/TwoPointCal/tp_ta182",rad.TA_tp.data(:,5))
+ncwrite(output_file,"/TwoPointCal/tp_ta182",rad.tp_ta182.data)
 
 nccreate(output_file,"/TwoPointCal/tp_ta89", "Dimensions",{"Nobs",length(rad.landmask.data)},"Format","netcdf4")
-ncwrite(output_file,"/TwoPointCal/tp_ta89",rad.TA_tp.data(:,1))
+ncwrite(output_file,"/SinglePointCal/tp_ta89",rad.tp_ta89.data)
 
 
