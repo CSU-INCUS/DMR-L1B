@@ -36,11 +36,8 @@ tmp = rad.landmask.data+2;
 tmp(isnan(tmp))=1;
 rad.scene.data=rad.scene.data+tmp;
 rad.scene.data(rad.bhorz.data>5)=0;
-rad.scene.longname = 'Scene code (0=cold sky,1=limb, 2=ocean, 5=land)' ;
-rad.scene.units = '/';
 
 %%% earth inc flag
 rad.earth_inc_flag.data = zeros(size(rad.scanang.data));
-rad.earth_inc_flag.data(rad.earth_inc_flag.data>c.EIA_max) = 1;
-rad.earth_inc_flag.longname = 'Earth Incidence Angle Flag, Earth incidence angle too oblique (0=acceptable).';
+rad.earth_inc_flag.data(rad.binc.data>c.EIA_max) = 1;
 clear latr lonr A lonx latx xs ys

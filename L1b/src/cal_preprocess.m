@@ -159,6 +159,12 @@ cal.adcWL_m.units = 'DN';
 cal.adcCS_m.longname = 'Mean cold sky calibration counts for each scan';
 cal.adcCS_m.units = 'DN';
 
+cal.adcWL_s.longname = 'Standard deviation of warm load counts for each scan';
+cal.adcWL_s.units = 'DN';
+
+cal.adcCS_s.longname = 'Standard deviation of cold sky calibration counts for each scan';
+cal.adcCS_s.units = 'DN';
+
 cal.TcalCS_m.longname = 'Cold sky calibration brightness temperature for each scan';
 cal.TcalCS_m.units = 'K';
 
@@ -167,4 +173,17 @@ cal.TcalWL_m.units = 'K';
 
 cal.gain.longname = 'Calibrated reciever gain (time x channel) once per scan';
 cal.gain.units = 'counts/K';
+
+cal.NEDTwl.longname = 'Warm Load NEDT (time x channel) once per scan';
+cal.NEDTwl.units = 'K';
+
+cal.NEDTcs.longname = 'Cold Sky NEDT (time x channel) once per scan';
+cal.NEDTcs.units = 'K';
+
+cal.num_wl_obs.longname = 'Number of observations of the warm load';
+cal.num_wl_obs.units = '/';
+
+cal.num_cs_obs.longname = 'Number of observations of the cold sky';
+cal.num_cs_obs.units = '/';
+
 

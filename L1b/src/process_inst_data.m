@@ -3,7 +3,7 @@
 %
 % This script processing housekeeping data on observation time points
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function inst = process_inst_data(d)
+function inst = process_inst_data(inst,d)
 % initialize
 inst.temp_cal1.data = NaN(size(d.s.TIMESTAMP));
 inst.temp_cal2.data = NaN(size(d.s.TIMESTAMP));

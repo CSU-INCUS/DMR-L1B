@@ -33,7 +33,10 @@ c = read_static_nc(static_file);
 d = create_L0_granule(granule_start_time,granule_end_time,L0_DMR_folder);
 
 %% process inst data
-inst = process_inst_data(d);
+% preallocation and metadata definitions
+inst = define_inst_var_DMR(d);
+% process data
+inst = process_inst_data(inst,d);
 
 %% load spacecraft telemetry ---------------------------------------------%
 % note that CubeOlocate needs time in matlab datetime convention, but
@@ -88,5 +91,5 @@ end
 createTime = datetime('now','TimeZone', 'Z');
 output_file = [output_path,'DMR_L1B_',granuleNumStr,'_',datestr(dn1,'yyyymmddTHHMMSS'),'_',datestr(dn2,'yyyymmddTHHMMSS'),'_',verstr,'_',datestr(createTime,'yyyymmddTHHMMSS'),'.nc'];
 % time ordered version
-output_netcdf(inst,rad,cal,sc,output_file)
+output_netcdf(d,inst,rad,cal,sc,output_file)
 toc           

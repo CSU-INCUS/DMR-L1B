@@ -2,7 +2,7 @@ function rad = define_geo_var_DMR(rad)
 
 rad.obs_qual_flag.data = zeros(length(rad.scanang.data),5);
 rad.obs_qual_flag.longname = 'Obs quality flag; 1: not valid ';
-rad.obs_qual_flag.units = '';
+rad.obs_qual_flag.units = '/';
 
 rad.SClat.data = nan(length(rad.scanang.data),1);
 rad.SClat.longname = 'Sub-spacecraft latitude at radiometer sample rate';
@@ -43,6 +43,14 @@ rad.bhorz.units = 'degrees';
 rad.asds.data = nan(length(rad.scanang.data),1);
 rad.asds.longname = 'Ascending/Descending flag (asc=1,dsc=0)';
 rad.asds.units = '/';
+
+rad.earth_inc_flag.data = nan(length(rad.scanang.data),1);
+rad.earth_inc_flag.longname = 'Earth Incidence Angle Flag, Earth incidence angle too oblique (0=acceptable).';
+rad.earth_inc_flag.units = '/';
+
+rad.scene.data = nan(length(rad.scanang.data),1);
+rad.scene.longname = 'Scene code (0=cold sky,1=limb, 2=ocean, 5=land)' ;
+rad.scene.units = '/';
 
 rad.SCyaw.data = [];
 rad.SCyaw.longname = 'Spacecraft orientation: counter-clockwise rotation about the S/C z-axis';

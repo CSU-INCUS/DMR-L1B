@@ -126,7 +126,7 @@ for ch = 1:5
     % warm load calculations
     ind3sig = find(calWL.adc_s.data(:,ch) < c.calstd_thres(ch)); % this is simplified from TEMPEST example code
     cal.adcWL_m.data(:,ch) = interp1(calWL.time.data(ind3sig), calWL.adc_m.data(ind3sig,ch),cal.time.data,'nearest','extrap');
-    cal.TcalWL.data(:,ch) = interp1(calWL.time.data(ind3sig), calWL.Tcal.data(ind3sig,ch),cal.time.data,'nearest','extrap');
+    cal.TcalWL_m.data(:,ch) = interp1(calWL.time.data(ind3sig), calWL.Tcal.data(ind3sig,ch),cal.time.data,'nearest','extrap');
     cal.adcWL_s.data(:,ch) = interp1(calWL.time.data(ind3sig), calWL.adc_s.data(ind3sig,ch),cal.time.data,'nearest','extrap');
 
     % cold sky calculations
@@ -136,7 +136,7 @@ for ch = 1:5
     cal.adcCS_s.data(:,ch) = interp1(calCS.time.data(ind3sig), calCS.adc_s.data(ind3sig,ch),cal.time.data,'nearest','extrap');
     
     % gain
-    cal.gain.data(:,ch) = (cal.adcWL_m.data(:,ch)-cal.adcCS_m.data(:,ch))./(cal.TcalWL.data(:,ch)-cal.TcalCS_m.data(:,ch));
+    cal.gain.data(:,ch) = (cal.adcWL_m.data(:,ch)-cal.adcCS_m.data(:,ch))./(cal.TcalWL_m.data(:,ch)-cal.TcalCS_m.data(:,ch));
     
     % NEDT
     cal.NEDTwl.data(:,ch) = cal.adcWL_s.data(:,ch)./abs(cal.gain.data(:,ch));
@@ -146,7 +146,8 @@ end
 
 % % flag assignment to calibration time
 % cal.flagRegister.data = uint16(interp1(calWL.time.data,double(flagRegister),cal.time.data,'nearest','extrap'));
-cal.num_cs_obs.data = interp1(calWL.time.data,num_wl_inds,cal.time.data,'nearest','extrap');
+cal.num_wl_obs.data = interp1(calWL.time.data,num_wl_inds,cal.time.data,'nearest','extrap');
+cal.num_cs_obs.data = interp1(calCS.time.data,num_cs_inds,cal.time.data,'nearest','extrap');
 
 %% Setup attributes
 cal.time.longname = 'Time for calibration set, seconds since J2000';
@@ -158,6 +159,12 @@ cal.adcWL_m.units = 'DN';
 cal.adcCS_m.longname = 'Mean cold sky calibration counts for each scan';
 cal.adcCS_m.units = 'DN';
 
+cal.adcWL_s.longname = 'Standard deviation of warm load counts for each scan';
+cal.adcWL_s.units = 'DN';
+
+cal.adcCS_s.longname = 'Standard deviation of cold sky calibration counts for each scan';
+cal.adcCS_s.units = 'DN';
+
 cal.TcalCS_m.longname = 'Cold sky calibration brightness temperature for each scan';
 cal.TcalCS_m.units = 'K';
 
@@ -166,4 +173,14 @@ cal.TcalWL_m.units = 'K';
 
 cal.gain.longname = 'Calibrated reciever gain (time x channel) once per scan';
 cal.gain.units = 'counts/K';
+
+cal.NEDTwl.longname = 'Warm Load NEDT (time x channel) once per scan';
+cal.NEDTwl.units = 'K';
+
+cal.NEDTcs.longname = 'Cold Sky NEDT (time x channel) once per scan';
+cal.NEDTcs.units = 'K';
+
+cal.NEDTcs.longname = 'Cold Sky NEDT (time x channel) once per scan';
+cal.NEDTcs.units = 'K';
+
 
