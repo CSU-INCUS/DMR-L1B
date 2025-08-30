@@ -9,15 +9,15 @@
 clear all; clc;tic
 
 %% define directories and other static input -----------------------------%
-granule_start_time = '28-Feb-2025 02:37:14';
-granule_end_time = '28-Feb-2025 03:11:22';
+granule_start_time = '28-Feb-2025 02:38:00'; % currently based on the amount of S/C data I have
+granule_end_time = '28-Feb-2025 02:45:00'; % currently based on the amount of S/C data I have
 granuleNumStr = '000001';
 dn1 = datenum(granule_start_time,'dd-mmm-yyyy HH:MM:ss'); % need to add precision to this field or the L0 filename 
 dn2 = datenum(granule_end_time,'dd-mmm-yyyy HH:MM:ss');
 verstr = 'V0010';
 L0_DMR_folder = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing\L0\outputs\';
 static_file = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing\L1b\static\static_parameters.nc';
-LO_sc_file = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing\L0\outputs\L0_sc_fake.csv';
+LO_sc_file = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing\L1b\inputs\BCT_sample_export-2025-08-29.nc';
 L1_DMR_folder = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing\L1\outputs\';
 L1_out_path = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing\L1b\outputs\data\';
 land_mask_path = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing\L1b\inputs\2min_Landmask.dat';

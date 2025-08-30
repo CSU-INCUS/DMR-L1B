@@ -1,6 +1,9 @@
 function rad = compute_TB_DMR(d,c,rad)
 
 rad.TB.data=nan(size(rad.TA_tp.data));
+rad.TB_spWL.data=nan(size(rad.TA_spWL.data));
+rad.TB_spCS.data=nan(size(rad.TA_spCS.data));
+
 for ch = 1:5
     calTargetTemps = [d.h.THERM_COUNT0 d.h.THERM_COUNT1 d.h.THERM_COUNT2];
     TWL = nanmean(calTargetTemps,2); % needs to be interpolated to obs times

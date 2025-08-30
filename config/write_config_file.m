@@ -77,7 +77,7 @@ nccreate(staticFile,'npkts')
 ncwrite(staticFile,'npkts',npkts)
 ncwriteatt(staticFile,'npkts','description','data granule size in number of packets (0.5s/pkt)')
 
-TAIoffset = 0;  %seconds TAI is ahead of UTC
+TAIoffset =  -393.3558*86400 - 43167.8;  % used for conversion of S/C time to instrument J2000 time currently
 nccreate(staticFile,'TAIoffset')
 ncwrite(staticFile,'TAIoffset',TAIoffset)
 ncwriteatt(staticFile,'TAIoffset','description','seconds TAI is ahead of UTC')
