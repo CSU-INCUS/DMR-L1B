@@ -14,11 +14,11 @@ numFiles = length(list_of_files);
 if(numFiles>0)
     for ff = 1:numFiles
         temp = list_of_files(ff).name;
-        string_time_1 = temp(6:19); % hard coded for now
-        string_time_2 = temp(22:35); % hard coded for now
+        string_time_1 = temp(8:22); % hard coded for now
+        string_time_2 = temp(24:38); % hard coded for now
 
-        tm1(ff) = datenum(string_time_1,'yyyymmddHHMMss');
-        tm2(ff) = datenum(string_time_2,'yyyymmddHHMMss');
+        tm1(ff) = datenum(string_time_1,'yyyymmddTHHMMss');
+        tm2(ff) = datenum(string_time_2,'yyyymmddTHHMMss');
         
     end
 else

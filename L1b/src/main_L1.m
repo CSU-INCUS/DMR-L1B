@@ -9,8 +9,8 @@
 clear all; clc;tic
 
 %% define directories and other static input -----------------------------%
-granule_start_time = '28-Feb-2025 02:38:00'; % currently based on the amount of S/C data I have
-granule_end_time = '28-Feb-2025 02:45:00'; % currently based on the amount of S/C data I have
+granule_start_time = '28-Feb-2025 10:33:00'; % currently based on the amount of S/C data I have (7 minutes)
+granule_end_time = '28-Feb-2025 10:40:00'; % currently based on the amount of S/C data I have
 granuleNumStr = '000001';
 dn1 = datenum(granule_start_time,'dd-mmm-yyyy HH:MM:ss'); % need to add precision to this field or the L0 filename 
 dn2 = datenum(granule_end_time,'dd-mmm-yyyy HH:MM:ss');
