@@ -6,7 +6,7 @@
 clear all;clc;
 
 %% decide on file name
-staticFolder = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing\L1b\static\';
+staticFolder = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1b\static\';
 fileName = 'static_parameters.nc';
 staticFile = fullfile(staticFolder,fileName);
 checkIfFileExists = dir(staticFile);
@@ -77,7 +77,7 @@ nccreate(staticFile,'npkts')
 ncwrite(staticFile,'npkts',npkts)
 ncwriteatt(staticFile,'npkts','description','data granule size in number of packets (0.5s/pkt)')
 
-TAIoffset =  -3.405757895099998e+07;  % used for conversion of S/C time to instrument J2000 time currently
+TAIoffset =  -2.286967861699987e+07;  % used for conversion of S/C time to instrument J2000 time currently
 nccreate(staticFile,'TAIoffset')
 ncwrite(staticFile,'TAIoffset',TAIoffset)
 ncwriteatt(staticFile,'TAIoffset','description','seconds TAI is ahead of UTC')
@@ -97,7 +97,7 @@ nccreate(staticFile,'skyfrac','Dimensions',{'skyfrac',1,5})
 ncwrite(staticFile,'skyfrac',skyfrac)
 ncwriteatt(staticFile,'skyfrac','description','APC cold sky fraction')
 
-calstd_thres = [20 30 40 30 50];  %threshold to filter calibration counts standard deviation on single target look
+calstd_thres = [200 300 400 300 500];  %threshold to filter calibration counts standard deviation on single target look
 nccreate(staticFile,'calstd_thres','Dimensions',{'calstd_thres',1,5})
 ncwrite(staticFile,'calstd_thres',calstd_thres)
 ncwriteatt(staticFile,'calstd_thres','description','threshold to filter calibration counts standard deviation on single target look')

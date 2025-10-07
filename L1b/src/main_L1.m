@@ -9,18 +9,19 @@
 clear all; clc;tic
 
 %% define directories and other static input -----------------------------%
-granule_start_time = '28-Feb-2025 10:33:00'; % currently based on the amount of S/C data I have (7 minutes)
-granule_end_time = '28-Feb-2025 10:40:00'; % currently based on the amount of S/C data I have
+% setting up to be applicable to L0 DMR input DMR_L0_20241021T224728_20241021T230256_V1.2.0_20250912T195641.nc
+granule_start_time = '21-Oct-2024 22:48:00'; % currently based on the amount of S/C data I have (7 minutes)
+granule_end_time = '21-Oct-2024 22:55:00'; % currently based on the amount of S/C data I have
 granuleNumStr = '000001';
 dn1 = datenum(granule_start_time,'dd-mmm-yyyy HH:MM:ss'); % need to add precision to this field or the L0 filename 
 dn2 = datenum(granule_end_time,'dd-mmm-yyyy HH:MM:ss');
 verstr = 'V0010';
-L0_DMR_folder = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing\L0\outputs\';
-static_file = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing\L1b\static\static_parameters.nc';
-LO_sc_file = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing\L1b\inputs\BCT_sample_export-2025-08-29.nc';
-L1_DMR_folder = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing\L1\outputs\';
-L1_out_path = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing\L1b\outputs\data\';
-land_mask_path = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing\L1b\inputs\2min_Landmask.dat';
+L0_DMR_folder = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L0\outputs\';
+static_file = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1b\static\static_parameters.nc';
+LO_sc_file = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1b\inputs\BCT_sample-with-velocity.nc';
+L1_DMR_folder = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1\outputs\';
+L1_out_path = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1b\outputs\data\';
+land_mask_path = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1b\inputs\2min_Landmask.dat';
 
 %% load static parameters ------------------------------------------------%
 c = read_static_nc(static_file);
@@ -65,31 +66,33 @@ rad = get_landflag_TEMPEST(rad,c,land_mask_path);
 
 %% extract calibration data ----------------------------------------------%
 [calWL,calCS,cal] = cal_preprocess(d,c,rad);
-
-%% compute TA ------------------------------------------------------------%
-rad = compute_TA_DMR(d,c,rad,cal);
-
-%% filter and flag data --------------------------------------------------%
-rad = filter_TA_DMR(c,rad);
-
-%% compute TB ------------------------------------------------------------%
-rad = compute_TB_DMR(d,c,rad);
-
-%% filter and flag data --------------------------------------------------%
-rad = filter_TB_DMR(c,rad);
-
-%% output netCDF ---------------------------------------------------------%
-[yyo, mmo, ddo, ~, ~, ~] = datevec(granule_start_time);
-output_path = [L1_out_path, sprintf('%04d',yyo),'\', sprintf('%02d',mmo),'\'];
-if (~exist(output_path, 'dir'))
-    system(['mkdir ',output_path]);
+% check if the data can be calibrated
+if(cal.process_abort.data == 0) % continue with nominal data
+    %% compute TA ------------------------------------------------------------%
+    rad = compute_TA_DMR(d,c,rad,cal);
+    
+    %% filter and flag data --------------------------------------------------%
+    rad = filter_TA_DMR(c,rad);
+    
+    %% compute TB ------------------------------------------------------------%
+    rad = compute_TB_DMR(d,c,rad);
+    
+    %% filter and flag data --------------------------------------------------%
+    rad = filter_TB_DMR(c,rad);
+    
+    %% output netCDF ---------------------------------------------------------%
+    [yyo, mmo, ddo, ~, ~, ~] = datevec(granule_start_time);
+    output_path = [L1_out_path, sprintf('%04d',yyo),'\', sprintf('%02d',mmo),'\'];
+    if (~exist(output_path, 'dir'))
+        system(['mkdir ',output_path]);
+    end
+    output_path = [L1_out_path, sprintf('%04d',yyo),'\', sprintf('%02d',mmo),'\', sprintf('%02d',ddo), '\'];
+    if (~exist(output_path, 'dir'))
+        system(['mkdir ',output_path]);
+    end
+    createTime = datetime('now','TimeZone', 'Z');
+    output_file = [output_path,'DMR_L1B_',granuleNumStr,'_',datestr(dn1,'yyyymmddTHHMMSS'),'_',datestr(dn2,'yyyymmddTHHMMSS'),'_',verstr,'_',datestr(createTime,'yyyymmddTHHMMSS'),'.nc'];
+    % time ordered version
+    output_netcdf(d,inst,rad,cal,sc,output_file)
+    toc           
 end
-output_path = [L1_out_path, sprintf('%04d',yyo),'\', sprintf('%02d',mmo),'\', sprintf('%02d',ddo), '\'];
-if (~exist(output_path, 'dir'))
-    system(['mkdir ',output_path]);
-end
-createTime = datetime('now','TimeZone', 'Z');
-output_file = [output_path,'DMR_L1B_',granuleNumStr,'_',datestr(dn1,'yyyymmddTHHMMSS'),'_',datestr(dn2,'yyyymmddTHHMMSS'),'_',verstr,'_',datestr(createTime,'yyyymmddTHHMMSS'),'.nc'];
-% time ordered version
-output_netcdf(d,inst,rad,cal,sc,output_file)
-toc           
