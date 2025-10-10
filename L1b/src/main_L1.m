@@ -16,12 +16,20 @@ granuleNumStr = '000001';
 dn1 = datenum(granule_start_time,'dd-mmm-yyyy HH:MM:ss'); % need to add precision to this field or the L0 filename 
 dn2 = datenum(granule_end_time,'dd-mmm-yyyy HH:MM:ss');
 verstr = 'V0010';
-L0_DMR_folder = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L0\outputs\';
-static_file = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1b\static\static_parameters.nc';
-LO_sc_file = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1b\inputs\BCT_sample-with-velocity.nc';
-L1_DMR_folder = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1\outputs\';
-L1_out_path = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1b\outputs\data\';
-land_mask_path = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1b\inputs\2min_Landmask.dat';
+%%%% SDPC - START
+% L0_DMR_folder = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L0\outputs\';
+% static_file = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1b\static\static_parameters.nc';
+% LO_sc_file = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1b\inputs\BCT_sample-with-velocity.nc';
+% L1_DMR_folder = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1\outputs\';
+% L1_out_path = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1b\outputs\data\';
+% land_mask_path = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1b\inputs\2min_Landmask.dat';
+L0_DMR_folder = '../../L0/outputs/';
+static_file = '../static/static_parameters.nc';
+LO_sc_file = '../inputs/BCT_sample-with-velocity.nc';
+L1_DMR_folder = '../../../dev-output/1b-tb/0.1.0-matlab-test/';
+L1_out_path = '../../../dev-output/1b-tb/0.1.0-matlab-test/';
+land_mask_path = '../inputs/2min_Landmask.dat';
+%%%% SDPC - END
 
 %% load static parameters ------------------------------------------------%
 c = read_static_nc(static_file);
