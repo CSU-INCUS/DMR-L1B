@@ -89,15 +89,17 @@ if(cal.process_abort.data == 0) % continue with nominal data
     rad = filter_TB_DMR(c,rad);
     
     %% output netCDF ---------------------------------------------------------%
-    [yyo, mmo, ddo, ~, ~, ~] = datevec(granule_start_time);
-    output_path = [L1_out_path, sprintf('%04d',yyo),'\', sprintf('%02d',mmo),'\'];
-    if (~exist(output_path, 'dir'))
-        system(['mkdir ',output_path]);
-    end
-    output_path = [L1_out_path, sprintf('%04d',yyo),'\', sprintf('%02d',mmo),'\', sprintf('%02d',ddo), '\'];
-    if (~exist(output_path, 'dir'))
-        system(['mkdir ',output_path]);
-    end
+    %%%% SDPC START
+    % [yyo, mmo, ddo, ~, ~, ~] = datevec(granule_start_time);
+    % output_path = [L1_out_path, sprintf('%04d',yyo),'\', sprintf('%02d',mmo),'\'];
+    output_path = L1_out_path;
+    %     system(['mkdir ',output_path]);
+    % end
+    % output_path = [L1_out_path, sprintf('%04d',yyo),'\', sprintf('%02d',mmo),'\', sprintf('%02d',ddo), '\'];
+    % if (~exist(output_path, 'dir'))
+    %     system(['mkdir ',output_path]);
+    % end
+    %%%% SDPC END
     createTime = datetime('now','TimeZone', 'Z');
     output_file = [output_path,'DMR_L1B_',granuleNumStr,'_',datestr(dn1,'yyyymmddTHHMMSS'),'_',datestr(dn2,'yyyymmddTHHMMSS'),'_',verstr,'_',datestr(createTime,'yyyymmddTHHMMSS'),'.nc'];
     % time ordered version
