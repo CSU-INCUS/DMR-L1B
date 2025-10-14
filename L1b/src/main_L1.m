@@ -23,12 +23,12 @@ verstr = 'V0010';
 % L1_DMR_folder = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1\outputs\';
 % L1_out_path = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1b\outputs\data\';
 % land_mask_path = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1b\inputs\2min_Landmask.dat';
-L0_DMR_folder = '../../L0/outputs/';
-static_file = '../static/static_parameters.nc';
-LO_sc_file = '../inputs/BCT_sample-with-velocity.nc';
-L1_DMR_folder = '../../../dev-output/1b-tb/0.1.0-matlab-test/';
-L1_out_path = '../../../dev-output/1b-tb/0.1.0-matlab-test/';
-land_mask_path = '../inputs/2min_Landmask.dat';
+L0_DMR_folder = '/data/DMR-L0/'; % input data - DMR L0 files
+static_file = '/reference/static_parameters.nc'; % reference - static parameters
+LO_sc_file = '/data/telemetry/BCT_sample-with-velocity.nc'; % input data - BCT telemetry (will be 1A-SC)
+% L1_DMR_folder = '../../../dev-output/1b-tb/0.1.0-matlab-test/'; % not used?
+L1_out_path = '/output/'; % output data dir
+land_mask_path = '/reference/2min_Landmask.dat'; % reference - land mask
 %%%% SDPC - END
 
 %% load static parameters ------------------------------------------------%
