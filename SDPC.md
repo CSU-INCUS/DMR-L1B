@@ -53,20 +53,18 @@ From any directory on the server, assuming the 1B-TB image was successfully crea
 ```
 <!-- docker run --rm -v <absolute-path-to>/data:/data -v <absolute-path-to>/reference:/reference -v <absolute-path-to>/output:/output 1b-tb -->
 ```
-<!-- ddocker run --rm -v /mnt/kilo-ceph/INCUS_data/1B-TB-input:/data -v /mnt/kilo-ceph/INCUS_data/1B-TB-reference:/reference -v /home/amyburz/dev-output/1b-tb/0.1.0-test:/output 1b-tb -->
 
+<!-- docker run --rm -v /mnt/kilo-ceph/INCUS_data/1B-TB-input:/data -v /mnt/kilo-ceph/INCUS_data/1B-TB-reference:/reference -v /home/amyburz/dev-output/1b-tb/0.1.0-test:/output 1b-tb -->
 
 **Note:** You must use absolute paths for the volume mounts in the above command.
 
-<!-- This will run the code using the inputs and the output filename specified and delete the container when
+This will run the code using the inputs and the output filename specified and delete the container when
 finished.
-i
+
 Typical results:
 ```
-[D1/3] Processing scatteredInterpolant... 1 of 313 CT profiles  Elapsed time is 0.116893 seconds.
-[D1/3] Querying scatteredInterpolant... 1 of 313 CT profiles    Elapsed time is 0.002108 seconds.
-[D1/3] Processing scatteredInterpolant... 2 of 313 CT profiles  Elapsed time is 0.054131 seconds.
-[D1/3] Querying scatteredInterpolant... 2 of 313 CT profiles    Elapsed time is 0.020186 seconds.
-[D1/3] Processing scatteredInterpolant... 3 of 313 CT profiles  Elapsed time is 0.078130 seconds.
+Successfully loaded all variables from /reference/static_parameters.nc
+Successfully loaded all variables from /data/DMR-L0/DMR_L0_20241021T224728_20241021T230256_V1.2.0_20250912T195641.nc
+Elapsed time is 19.604919 seconds.
 ...
-``` -->
+```
