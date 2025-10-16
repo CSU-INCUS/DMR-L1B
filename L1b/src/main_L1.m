@@ -9,9 +9,9 @@
 clear all; clc;tic
 
 %% define directories and other static input -----------------------------%
-% setting up to be applicable to L0 DMR input DMR_L0_20241021T224728_20241021T230256_V1.2.0_20250912T195641.nc
-granule_start_time = '21-Oct-2024 22:48:00'; % currently based on the amount of S/C data I have (7 minutes)
-granule_end_time = '21-Oct-2024 22:55:00'; % currently based on the amount of S/C data I have
+% setting up to be applicable to L0 DMR input DMR_L0_20250228T103228_20250228T110635_V1.2.0_20250909T230805.nc
+granule_start_time = '28-Feb-2025 10:33:00'; % currently based on the amount of S/C data I have (7 minutes)
+granule_end_time = '28-Feb-2025 10:40:00'; % currently based on the amount of S/C data I have
 granuleNumStr = '000001';
 dn1 = datenum(granule_start_time,'dd-mmm-yyyy HH:MM:ss'); % need to add precision to this field or the L0 filename 
 dn2 = datenum(granule_end_time,'dd-mmm-yyyy HH:MM:ss');
