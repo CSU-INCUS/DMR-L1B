@@ -54,7 +54,7 @@ From any directory on the server, assuming the 1B-TB image was successfully crea
 <!-- docker run --rm -v <absolute-path-to>/data:/data -v <absolute-path-to>/reference:/reference -v <absolute-path-to>/output:/output 1b-tb -->
 ```
 
-<!-- docker run --rm -v /mnt/kilo-ceph/INCUS_data/1B-TB-input:/data -v /mnt/kilo-ceph/INCUS_data/1B-TB-reference:/reference -v /home/amyburz/dev-output/1b-tb/0.1.0-test:/output 1b-tb -->
+<!-- docker run --rm -v /mnt/kilo-ceph/INCUS_data/1B-TB-input/0.2.0-test:/data -v /mnt/kilo-ceph/INCUS_data/1B-TB-reference:/reference -v /home/amyburz/dev-output/1b-tb/0.2.0-test:/output 1b-tb -->
 
 **Note:** You must use absolute paths for the volume mounts in the above command.
 
