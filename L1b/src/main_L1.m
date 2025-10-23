@@ -16,12 +16,20 @@ granuleNumStr = '000001';
 dn1 = datenum(granule_start_time,'dd-mmm-yyyy HH:MM:ss'); % need to add precision to this field or the L0 filename 
 dn2 = datenum(granule_end_time,'dd-mmm-yyyy HH:MM:ss');
 verstr = 'V0010';
-L0_DMR_folder = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L0\outputs\';
-static_file = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1b\static\static_parameters.nc';
-LO_sc_file = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1b\inputs\BCT_sample-with-velocity.nc';
-L1_DMR_folder = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1\outputs\';
-L1_out_path = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1b\outputs\data\';
-land_mask_path = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1b\inputs\2min_Landmask.dat';
+%%%% SDPC - START
+% L0_DMR_folder = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L0\outputs\';
+% static_file = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1b\static\static_parameters.nc';
+% LO_sc_file = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1b\inputs\BCT_sample-with-velocity.nc';
+% L1_DMR_folder = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1\outputs\';
+% L1_out_path = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1b\outputs\data\';
+% land_mask_path = 'C:\Users\marym\Documents\INCUS\code\DMR\dev\DMR-ground-processing-public\DMR-ground-processing\L1b\inputs\2min_Landmask.dat';
+L0_DMR_folder = '/data/DMR-L0/'; % input data - DMR L0 files
+static_file = '/reference/static_parameters.nc'; % reference - static parameters
+LO_sc_file = '/data/telemetry/BCT_sample-with-velocity.nc'; % input data - BCT telemetry (will be 1A-SC)
+% L1_DMR_folder = '../../../dev-output/1b-tb/0.1.0-matlab-test/'; % not used?
+L1_out_path = '/output/'; % output data dir
+land_mask_path = '/reference/2min_Landmask.dat'; % reference - land mask
+%%%% SDPC - END
 
 %% load static parameters ------------------------------------------------%
 c = read_static_nc(static_file);
@@ -81,15 +89,17 @@ if(cal.process_abort.data == 0) % continue with nominal data
     rad = filter_TB_DMR(c,rad);
     
     %% output netCDF ---------------------------------------------------------%
-    [yyo, mmo, ddo, ~, ~, ~] = datevec(granule_start_time);
-    output_path = [L1_out_path, sprintf('%04d',yyo),'\', sprintf('%02d',mmo),'\'];
-    if (~exist(output_path, 'dir'))
-        system(['mkdir ',output_path]);
-    end
-    output_path = [L1_out_path, sprintf('%04d',yyo),'\', sprintf('%02d',mmo),'\', sprintf('%02d',ddo), '\'];
-    if (~exist(output_path, 'dir'))
-        system(['mkdir ',output_path]);
-    end
+    %%%% SDPC START
+    % [yyo, mmo, ddo, ~, ~, ~] = datevec(granule_start_time);
+    % output_path = [L1_out_path, sprintf('%04d',yyo),'\', sprintf('%02d',mmo),'\'];
+    output_path = L1_out_path;
+    %     system(['mkdir ',output_path]);
+    % end
+    % output_path = [L1_out_path, sprintf('%04d',yyo),'\', sprintf('%02d',mmo),'\', sprintf('%02d',ddo), '\'];
+    % if (~exist(output_path, 'dir'))
+    %     system(['mkdir ',output_path]);
+    % end
+    %%%% SDPC END
     createTime = datetime('now','TimeZone', 'Z');
     output_file = [output_path,'DMR_L1B_',granuleNumStr,'_',datestr(dn1,'yyyymmddTHHMMSS'),'_',datestr(dn2,'yyyymmddTHHMMSS'),'_',verstr,'_',datestr(createTime,'yyyymmddTHHMMSS'),'.nc'];
     % time ordered version
